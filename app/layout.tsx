@@ -2,7 +2,7 @@ import "./globals.css";
 
 export const metadata = {
   title: "Princess Mae Sanchez",
-  description: "Computer Engineering Student · Full-Stack Developer · UI/UX Enthusiast",
+  description: "Computer Engineering Student · Full-Stack Developer",
 };
 
 export default function RootLayout({
