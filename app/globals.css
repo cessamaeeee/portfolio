@@ -1,3 +1,49 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ─────────────────────────────────────────
+   MOVING PINK GRADIENT BACKGROUND
+   ───────────────────────────────────────── */
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    #fdf0f4,
+    #fce0ea,
+    #f9d0de,
+    #fce8f0,
+    #fdf4f6
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 12s ease infinite;
+  color: #3a1525;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ─────────────────────────────────────────
+   SCROLLBAR STYLING
+   ───────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #fdf0f4; }
+::-webkit-scrollbar-thumb { background: #d4849a; border-radius: 10px; }
+
+/* ─────────────────────────────────────────
+   SECTION SPACING
+   ───────────────────────────────────────── */
+section {
+  padding: 80px 0;
+}
+
+/* ─────────────────────────────────────────
+   SMOOTH SCROLL
+   ───────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
