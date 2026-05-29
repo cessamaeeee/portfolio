@@ -36,6 +36,8 @@ export default function Contact() {
       <div className="grid md:grid-cols-3 gap-4 mb-12">
         {LINKS.map((link) => (
           <a
+            key={link.label}
+            href={link.href}
             target="_blank"
             rel="noopener noreferrer"
             className="bg-white/50 backdrop-blur-sm border border-rose-100 rounded-2xl p-6 flex flex-col gap-2 hover:bg-rose-50/60 hover:border-rose-200 hover:shadow-md transition-all duration-300 group"
