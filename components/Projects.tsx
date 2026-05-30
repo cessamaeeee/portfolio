@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
+import ScrollReveal from "@/components/ScrollReveal";
 
-// ─── Projects Data ──────────────────────
+// ─── Projects Data ───────────────────────
 const PROJECTS = [
   {
     name:     "ScholarLink",
@@ -13,8 +15,9 @@ const PROJECTS = [
     role:     "Full Stack Developer & Database Lead — database architecture (13 tables, 22 relationships), backend integration, and system implementation.",
     awards:   "Best Booth Design · Best Pitch · Most Innovative · Best UI/UX · Best Booth Experience",
     stack:    ["Laravel 12", "MySQL", "Tailwind CSS", "Alpine.js", "Vite", "Gemini API", "Docker", "Render"],
-    team:     "Banayad, Franchezca · Escaño, Jose Jerico · Esteban, Karl Joseph · Frigillana, Niña Ysabelle · Lanuza, Elena Vale · Sanchez, Princess Mae",
+    team:     "Banayad, Franchezca · Escano, Jose Jerico · Esteban, Karl Joseph · Frigillana, Nina Ysabelle · Lanuza, Elena Vale · Sanchez, Princess Mae",
     live:     "https://scholarlink-lzj5.onrender.com",
+    photo:    "/ScholarLinkTeam.JPG",
   },
   {
     name:     "LakwatSafe",
@@ -27,6 +30,7 @@ const PROJECTS = [
     stack:    ["React Native", "Expo", "Firebase", "Google Maps API", "Node.js"],
     team:     "Team Haricode — PLM",
     live:     "",
+    photo:    "/DLSUHackecup.jpg",
   },
   {
     name:     "Wais Wallet",
@@ -37,102 +41,98 @@ const PROJECTS = [
     role:     "Backend Developer — implemented notifications and alerts for bills/overspending, developed calculation logic for earnings over time, and connected frontend to backend via API endpoints.",
     awards:   "",
     stack:    ["Python", "Django", "SQLite", "HTML", "CSS", "JavaScript"],
-    team:     "Frontend: Ysa Frigillana · Elena Lanuza · Lee Tuangco · Karl Esteban | Backend: Franchezca Banayad · Princess Mae Sanchez · Kenshin Cuerl Dizon | Database: John Benedict Listangco · Recson Avielle Rojo · Achilles Pajes",
+    team:     "Frontend: Ysa Frigillana, Elena Lanuza, Lee Tuangco, Karl Esteban | Backend: Franchezca Banayad, Princess Mae Sanchez, Kenshin Cuerl Dizon | Database: John Benedict Listangco, Recson Avielle Rojo, Achilles Pajes",
     live:     "https://wais-wallet-development.onrender.com",
+    photo:    "/WaisWalletLogo.png",
   },
 ];
 
-// ─── Project Card ───────────────────────
-function ProjectCard({ project }: { project: typeof PROJECTS[0] }) {
+// ─── Project Card ────────────────────────
+function ProjectCard({ project, delay }: { project: typeof PROJECTS[0]; delay: number }) {
   const [expanded, setExpanded] = useState(false);
   const [hovered,  setHovered]  = useState(false);
 
   return (
-    <div
-      className="relative bg-white/50 backdrop-blur-sm border border-rose-100 rounded-2xl p-6 transition-all duration-300 hover:bg-rose-50/60 hover:border-rose-200 hover:shadow-md group"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {/* Type Tag */}
-      <p className="text-xs text-rose-400 uppercase tracking-widest mb-2">{project.type}</p>
+    <ScrollReveal delay={delay}>
+      <div
+        className="relative bg-white/50 backdrop-blur-sm border border-rose-100 rounded-2xl overflow-hidden transition-all duration-300 hover:bg-rose-50/60 hover:border-rose-200 hover:shadow-lg hover:-translate-y-1 h-full flex flex-col"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        {/* Photo */}
+        <div className="relative h-44 w-full overflow-hidden">
+          <Image src={project.photo} alt={project.name} fill className="object-cover transition-transform duration-500 hover:scale-105" />
+          <div className="absolute inset-0 bg-gradient-to-t from-white/60 to-transparent" />
+        </div>
 
-      {/* Name */}
-      <h3 className="text-xl font-semibold text-rose-900 mb-2">{project.name}</h3>
+        {/* Content */}
+        <div className="p-6 flex flex-col flex-1">
+          <p className="text-xs text-rose-400 uppercase tracking-widest mb-2">{project.type}</p>
+          <h3 className="text-xl font-semibold text-rose-900 mb-2">{project.name}</h3>
+          <p className="text-rose-600 text-sm italic mb-3">{project.oneliner}</p>
+          <p className="text-rose-700 text-sm leading-relaxed mb-4">{project.excerpt}</p>
 
-      {/* One-liner */}
-      <p className="text-rose-600 text-sm italic mb-3">{project.oneliner}</p>
-
-      {/* Excerpt */}
-      <p className="text-rose-700 text-sm leading-relaxed mb-4">{project.excerpt}</p>
-
-      {/* Stack Pills */}
-      <div className="flex flex-wrap gap-2 mb-4">
-        {project.stack.map((s) => (
-          <span key={s} className="text-xs bg-rose-100 text-rose-600 px-2.5 py-1 rounded-full">
-            {s}
-          </span>
-        ))}
-      </div>
-
-      {/* Expanded Content */}
-      {expanded && (
-        <div className="mt-4 pt-4 border-t border-rose-100 flex flex-col gap-3">
-          <p className="text-rose-700 text-sm leading-relaxed">{project.full}</p>
-          <div>
-            <p className="text-xs text-rose-400 uppercase tracking-widest mb-1">Your Role</p>
-            <p className="text-rose-700 text-sm">{project.role}</p>
+          {/* Stack Pills */}
+          <div className="flex flex-wrap gap-2 mb-4">
+            {project.stack.map((s) => (
+              <span key={s} className="text-xs bg-rose-100 text-rose-600 px-2.5 py-1 rounded-full">{s}</span>
+            ))}
           </div>
-          {project.awards && (
-            <div>
-              <p className="text-xs text-rose-400 uppercase tracking-widest mb-1">Recognition</p>
-              <p className="text-rose-700 text-sm">{project.awards}</p>
+
+          {/* Expanded */}
+          {expanded && (
+            <div className="mt-2 pt-4 border-t border-rose-100 flex flex-col gap-3">
+              <p className="text-rose-700 text-sm leading-relaxed">{project.full}</p>
+              <div>
+                <p className="text-xs text-rose-400 uppercase tracking-widest mb-1">Role</p>
+                <p className="text-rose-700 text-sm">{project.role}</p>
+              </div>
+              {project.awards && (
+                <div>
+                  <p className="text-xs text-rose-400 uppercase tracking-widest mb-1">Recognition</p>
+                  <p className="text-rose-700 text-sm">{project.awards}</p>
+                </div>
+              )}
+              <div>
+                <p className="text-xs text-rose-400 uppercase tracking-widest mb-1">Team</p>
+                <p className="text-rose-700 text-sm">{project.team}</p>
+              </div>
+              {project.live && (
+                <a href={project.live} target="_blank" rel="noopener noreferrer" className="text-sm text-rose-600 underline hover:text-rose-900 transition-colors">
+                  View Live
+                </a>
+              )}
             </div>
           )}
-          <div>
-            <p className="text-xs text-rose-400 uppercase tracking-widest mb-1">Team</p>
-            <p className="text-rose-700 text-sm">{project.team}</p>
-          </div>
-          {project.live && (
-            <a
-              href={project.live}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-rose-600 underline hover:text-rose-900 transition-colors"
+
+          {/* Read More */}
+          <div className="mt-auto pt-4">
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className={`text-xs text-rose-600 border border-rose-200 px-4 py-1.5 rounded-full hover:bg-rose-100 transition-all duration-300 ${hovered || expanded ? "opacity-100" : "opacity-0"}`}
             >
-              View Live →
-            </a>
-          )}
+              {expanded ? "Show Less" : "Read More"}
+            </button>
+          </div>
         </div>
-      )}
-
-      {/* Read More Button — visible on hover */}
-      <button
-        onClick={() => setExpanded(!expanded)}
-        className={`mt-4 text-xs text-rose-600 border border-rose-200 px-4 py-1.5 rounded-full hover:bg-rose-100 transition-all duration-300 ${hovered || expanded ? "opacity-100" : "opacity-0"}`}
-      >
-        {expanded ? "Show Less" : "Read More"}
-      </button>
-
-    </div>
+      </div>
+    </ScrollReveal>
   );
 }
 
-// ─── Projects Section ───────────────────
+// ─── Projects Section ────────────────────
 export default function Projects() {
   return (
     <section id="projects" className="max-w-6xl mx-auto px-6">
-
-      {/* Section Label */}
-      <p className="text-xs tracking-[0.2em] text-rose-400 uppercase mb-3">Projects</p>
-      <h2 className="text-3xl font-semibold text-rose-900 mb-8">What I&apos;ve Built</h2>
-
-      {/* 3-Column Grid */}
+      <ScrollReveal>
+        <p className="text-xs tracking-[0.2em] text-rose-400 uppercase mb-3">Projects</p>
+        <h2 className="text-3xl font-semibold text-rose-900 mb-8">What I&apos;ve Built</h2>
+      </ScrollReveal>
       <div className="grid md:grid-cols-3 gap-6">
-        {PROJECTS.map((project) => (
-          <ProjectCard key={project.name} project={project} />
+        {PROJECTS.map((project, i) => (
+          <ProjectCard key={project.name} project={project} delay={i * 120} />
         ))}
       </div>
-
     </section>
   );
 }

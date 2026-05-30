@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 
-// ─── Hero Component ─────────────────────
+// ─── Hero Component ──────────────────────
 export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -20,7 +20,6 @@ export default function Hero() {
     const COLORS = ["#e8607a","#f09ab0","#d4506a","#ffb3c8","#e87090","#c04868","#fab8cc"];
     const mouse  = { x: W / 2, y: H / 2 };
 
-    // Build particles
     const particles = Array.from({ length: 80 }, () => ({
       x:       Math.random() * W,
       y:       Math.random() * H,
@@ -33,54 +32,29 @@ export default function Hero() {
       opacity: 0.3 + Math.random() * 0.5,
     }));
 
-    // Track mouse
-    const onMouseMove = (e: MouseEvent) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    };
+    const onMouseMove = (e: MouseEvent) => { mouse.x = e.clientX; mouse.y = e.clientY; };
     window.addEventListener("mousemove", onMouseMove);
 
-    // Resize
-    const onResize = () => {
-      W = canvas.width  = window.innerWidth;
-      H = canvas.height = window.innerHeight;
-    };
+    const onResize = () => { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; };
     window.addEventListener("resize", onResize);
 
-    // Draw loop
     let animId: number;
     const draw = () => {
       ctx.clearRect(0, 0, W, H);
       particles.forEach((p) => {
-        const dx   = mouse.x - p.x;
-        const dy   = mouse.y - p.y;
+        const dx = mouse.x - p.x, dy = mouse.y - p.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 120) {
-          p.vx += (dx / dist) * 0.06;
-          p.vy += (dy / dist) * 0.06;
-        }
-        p.vx    *= 0.97;
-        p.vy    *= 0.97;
-        p.x     += p.vx;
-        p.y     += p.vy;
-        p.angle += 0.02;
-        if (p.x < -20) p.x = W + 10;
-        if (p.x > W + 20) p.x = -10;
-        if (p.y < -20) p.y = H + 10;
-        if (p.y > H + 20) p.y = -10;
-
+        if (dist < 120) { p.vx += (dx / dist) * 0.06; p.vy += (dy / dist) * 0.06; }
+        p.vx *= 0.97; p.vy *= 0.97;
+        p.x  += p.vx;  p.y  += p.vy; p.angle += 0.02;
+        if (p.x < -20) p.x = W + 10; if (p.x > W + 20) p.x = -10;
+        if (p.y < -20) p.y = H + 10; if (p.y > H + 20) p.y = -10;
         ctx.save();
-        ctx.globalAlpha  = p.opacity;
-        ctx.strokeStyle  = p.color;
-        ctx.lineWidth    = p.size * 0.5;
-        ctx.lineCap      = "round";
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.angle);
-        ctx.beginPath();
-        ctx.moveTo(-p.len / 2, 0);
-        ctx.lineTo(p.len / 2, 0);
-        ctx.stroke();
-        ctx.restore();
+        ctx.globalAlpha = p.opacity; ctx.strokeStyle = p.color;
+        ctx.lineWidth = p.size * 0.5; ctx.lineCap = "round";
+        ctx.translate(p.x, p.y); ctx.rotate(p.angle);
+        ctx.beginPath(); ctx.moveTo(-p.len / 2, 0); ctx.lineTo(p.len / 2, 0);
+        ctx.stroke(); ctx.restore();
       });
       animId = requestAnimationFrame(draw);
     };
@@ -99,51 +73,61 @@ export default function Hero() {
       {/* Particle Canvas */}
       <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none z-0" />
 
+      {/* Floating Decorative Blobs */}
+      <div className="float-1 absolute top-24 left-12 w-16 h-16 rounded-full bg-rose-200/40 blur-xl pointer-events-none" />
+      <div className="float-2 absolute top-40 right-24 w-24 h-24 rounded-full bg-pink-200/30 blur-2xl pointer-events-none" />
+      <div className="float-3 absolute bottom-32 left-1/4 w-20 h-20 rounded-full bg-rose-100/50 blur-xl pointer-events-none" />
+
       {/* Content */}
       <div className="relative z-10 max-w-6xl mx-auto px-6 pt-24 pb-16 flex flex-col md:flex-row items-center gap-12">
 
         {/* Left — Text */}
         <div className="flex-1 text-center md:text-left">
-          <p className="text-xs tracking-[0.2em] text-rose-500 uppercase mb-4">
+          <p
+            className="text-xs tracking-[0.2em] text-rose-500 uppercase mb-4"
+            style={{ animation: "fadeInUp 0.8s ease forwards", animationDelay: "0.1s", opacity: 0 }}
+          >
             Computer Engineering Student · Full-Stack Developer · UI/UX Enthusiast
           </p>
-          <h1 className="text-4xl md:text-5xl font-semibold text-rose-900 leading-tight mb-6">
+          <h1
+            className="text-4xl md:text-5xl font-semibold text-rose-900 leading-tight mb-6"
+            style={{ animation: "fadeInUp 0.8s ease forwards", animationDelay: "0.25s", opacity: 0 }}
+          >
             Hi, I&apos;m <span className="text-rose-600">Princess Mae</span>
           </h1>
-          <p className="text-rose-700 text-base md:text-lg leading-relaxed mb-8 max-w-xl">
+          <p
+            className="text-rose-700 text-base md:text-lg leading-relaxed mb-8 max-w-xl"
+            style={{ animation: "fadeInUp 0.8s ease forwards", animationDelay: "0.4s", opacity: 0 }}
+          >
             I build systems that solve real problems — with clean code, thoughtful design,
             and a deep care for the people who use them.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-            <a
-              href="#contact"
-              className="bg-rose-800 text-white px-6 py-3 rounded-full text-sm hover:bg-rose-900 transition-colors duration-200"
-            >
+          <div
+            className="flex flex-wrap gap-4 justify-center md:justify-start"
+            style={{ animation: "fadeInUp 0.8s ease forwards", animationDelay: "0.55s", opacity: 0 }}
+          >
+            <a href="#contact" className="bg-rose-800 text-white px-6 py-3 rounded-full text-sm hover:bg-rose-900 transition-all duration-200 hover:scale-105">
               Get In Touch
             </a>
-            <a
-              href="/CV.pdf"
-              download
-              className="border border-rose-300 text-rose-700 px-6 py-3 rounded-full text-sm hover:bg-rose-50 transition-colors duration-200"
-            >
+            <a href="/CV.pdf" download className="border border-rose-300 text-rose-700 px-6 py-3 rounded-full text-sm hover:bg-rose-50 transition-all duration-200 hover:scale-105">
               Download CV
             </a>
           </div>
 
-          {/* Stat Chips */}
-          <div className="flex flex-wrap gap-3 mt-8 justify-center md:justify-start">
+          {/* Stat Chips — no emojis */}
+          <div
+            className="flex flex-wrap gap-3 mt-8 justify-center md:justify-start"
+            style={{ animation: "fadeInUp 0.8s ease forwards", animationDelay: "0.7s", opacity: 0 }}
+          >
             {[
-              "📚 4 Scholarships",
-              "🏆 2 Hackathon Awards",
-              "💻 3 Featured Projects",
-              "🤝 10+ Org Roles",
+              "4 Scholarships",
+              "2 Hackathon Awards",
+              "3 Featured Projects",
+              "10+ Org Roles",
             ].map((stat) => (
-              <span
-                key={stat}
-                className="text-xs bg-rose-100 text-rose-700 px-3 py-1.5 rounded-full"
-              >
+              <span key={stat} className="text-xs bg-rose-100/80 text-rose-700 px-3 py-1.5 rounded-full border border-rose-200/50">
                 {stat}
               </span>
             ))}
@@ -151,15 +135,16 @@ export default function Hero() {
         </div>
 
         {/* Right — Photo */}
-        <div className="flex-shrink-0">
-          <div className="relative w-56 h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-4 border-rose-200 shadow-lg">
-            <Image
-              src="/profile.jpg"
-              alt="Princess Mae Sanchez"
-              fill
-              className="object-cover"
-              priority
-            />
+        <div
+          className="flex-shrink-0"
+          style={{ animation: "fadeIn 1s ease forwards", animationDelay: "0.4s", opacity: 0 }}
+        >
+          <div className="relative">
+            {/* Decorative ring */}
+            <div className="absolute -inset-3 rounded-full bg-gradient-to-br from-rose-200 to-pink-100 blur-md opacity-60" />
+            <div className="relative w-56 h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-4 border-rose-200 shadow-xl">
+              <Image src="/profile.jpg" alt="Princess Mae Sanchez" fill className="object-cover" priority />
+            </div>
           </div>
         </div>
 
