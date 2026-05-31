@@ -67,7 +67,7 @@ export default function Toolkit() {
   return (
     <section id="toolkit" className="max-w-6xl mx-auto px-6">
       <div className="relative">
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
+        <div className="absolute inset-0 opacity-30 pointer-events-none">
           <Iridescence color={[0.8, 0.3, 0.5]} speed={0.5} amplitude={0.05} mouseReact={false} />
         </div>
 
