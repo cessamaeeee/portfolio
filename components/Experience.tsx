@@ -1,3 +1,4 @@
+"use client";
 import ScrollReveal from "@/components/ScrollReveal";
 import ScrollFloat from "@/components/ScrollFloat";
 
