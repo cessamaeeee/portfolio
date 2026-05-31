@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Cursor from "@/components/Cursor";
+import SplashCursor from "@/components/SplashCursor";
 
 // ─── Font ────────────────────────────────
 const inter = Inter({
@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} font-sans antialiased`}>
-        <Cursor />
+        <SplashCursor TRANSPARENT={true} RAINBOW_MODE={false} COLOR="#c06080" />
         {children}
       </body>
     </html>

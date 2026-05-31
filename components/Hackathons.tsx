@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import ScrollReveal from "@/components/ScrollReveal";
+import ScrollFloat from "@/components/ScrollFloat";
 
 // ─── Hackathons Data ─────────────────────
 const HACKATHONS = [
@@ -119,7 +120,7 @@ export default function Hackathons() {
     <section id="hackathons" className="max-w-6xl mx-auto px-6">
       <ScrollReveal>
         <p className="text-xs tracking-[0.2em] text-rose-400 uppercase mb-3">Hackathons</p>
-        <h2 className="text-3xl font-semibold text-rose-900 mb-8">Competing & Building</h2>
+        <ScrollFloat textClassName="text-rose-900 font-semibold">Competing &amp; Building</ScrollFloat>
       </ScrollReveal>
       <div className="grid md:grid-cols-2 gap-6">
         {HACKATHONS.map((h, i) => (

@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import ScrollReveal from "@/components/ScrollReveal";
+import ScrollFloat from "@/components/ScrollFloat";
+import Iridescence from "@/components/Iridescence";
 
 // ─── Projects Data ───────────────────────
 const PROJECTS = [
@@ -124,14 +126,19 @@ function ProjectCard({ project, delay }: { project: typeof PROJECTS[0]; delay: n
 export default function Projects() {
   return (
     <section id="projects" className="max-w-6xl mx-auto px-6">
+      <div className="relative">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <Iridescence color={[0.8, 0.3, 0.5]} speed={0.5} amplitude={0.05} mouseReact={false} />
+        </div>
       <ScrollReveal>
         <p className="text-xs tracking-[0.2em] text-rose-400 uppercase mb-3">Projects</p>
-        <h2 className="text-3xl font-semibold text-rose-900 mb-8">What I&apos;ve Built</h2>
+        <ScrollFloat textClassName="text-rose-900 font-semibold">What I&apos;ve Built</ScrollFloat>
       </ScrollReveal>
       <div className="grid md:grid-cols-3 gap-6">
         {PROJECTS.map((project, i) => (
           <ProjectCard key={project.name} project={project} delay={i * 120} />
         ))}
+      </div>
       </div>
     </section>
   );

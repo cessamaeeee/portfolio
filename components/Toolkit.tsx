@@ -1,4 +1,6 @@
 import ScrollReveal from "@/components/ScrollReveal";
+import ScrollFloat from "@/components/ScrollFloat";
+import Iridescence from "@/components/Iridescence";
 
 // ─── Toolkit Data with Devicon classes ───
 const TOOLS = [
@@ -63,13 +65,17 @@ const TOOLS = [
 export default function Toolkit() {
   return (
     <section id="toolkit" className="max-w-6xl mx-auto px-6">
+      <div className="relative">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <Iridescence color={[0.8, 0.3, 0.5]} speed={0.5} amplitude={0.05} mouseReact={false} />
+        </div>
 
       {/* Devicons CDN */}
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
 
       <ScrollReveal>
         <p className="text-xs tracking-[0.2em] text-rose-400 uppercase mb-3">Tool Kit</p>
-        <h2 className="text-3xl font-semibold text-rose-900 mb-8">What I Work With</h2>
+        <ScrollFloat textClassName="text-rose-900 font-semibold">What I Work With</ScrollFloat>
       </ScrollReveal>
 
       <div className="flex flex-col gap-6">
@@ -97,6 +103,7 @@ export default function Toolkit() {
         ))}
       </div>
 
+      </div>
     </section>
   );
 }

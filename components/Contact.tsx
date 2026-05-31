@@ -1,4 +1,5 @@
 import ScrollReveal from "@/components/ScrollReveal";
+import ScrollFloat from "@/components/ScrollFloat";
 
 // ─── Contact Links ───────────────────────
 const LINKS = [
@@ -26,7 +27,7 @@ export default function Contact() {
 
       <ScrollReveal>
         <p className="text-xs tracking-[0.2em] text-rose-400 uppercase mb-3">Contact</p>
-        <h2 className="text-3xl font-semibold text-rose-900 mb-4">Get In Touch</h2>
+        <ScrollFloat textClassName="text-rose-900 font-semibold">Get In Touch</ScrollFloat>
         <p className="text-rose-600 mb-10 max-w-xl">
           Have a project in mind or just want to connect? Feel free to reach out —
           I&apos;d love to hear from you.

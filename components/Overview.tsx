@@ -1,4 +1,5 @@
 import ScrollReveal from "@/components/ScrollReveal";
+import ScrollFloat from "@/components/ScrollFloat";
 
 // ─── Overview Component ──────────────────
 export default function Overview() {
@@ -7,7 +8,7 @@ export default function Overview() {
 
       <ScrollReveal>
         <p className="text-xs tracking-[0.2em] text-rose-400 uppercase mb-3">Overview</p>
-        <h2 className="text-3xl font-semibold text-rose-900 mb-8">Who I Am</h2>
+        <ScrollFloat textClassName="text-rose-900 font-semibold">Who I Am</ScrollFloat>
       </ScrollReveal>
 
       <div className="grid md:grid-cols-2 gap-12 items-center">

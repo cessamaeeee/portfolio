@@ -1,4 +1,5 @@
 import ScrollReveal from "@/components/ScrollReveal";
+import ScrollFloat from "@/components/ScrollFloat";
 
 // ─── Experience Data ─────────────────────
 const FORMAL = [
@@ -52,7 +53,7 @@ export default function Experience() {
 
       <ScrollReveal>
         <p className="text-xs tracking-[0.2em] text-rose-400 uppercase mb-3">Experience</p>
-        <h2 className="text-3xl font-semibold text-rose-900 mb-8">Where I&apos;ve Been</h2>
+        <ScrollFloat textClassName="text-rose-900 font-semibold">Where I&apos;ve Been</ScrollFloat>
       </ScrollReveal>
 
       {/* Formal Experience */}

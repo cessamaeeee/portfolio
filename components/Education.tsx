@@ -1,4 +1,6 @@
 import ScrollReveal from "@/components/ScrollReveal";
+import ScrollFloat from "@/components/ScrollFloat";
+import Iridescence from "@/components/Iridescence";
 
 // ─── Education Data ──────────────────────
 const SCHOOLS = [
@@ -38,10 +40,14 @@ const CERTS = [
 export default function Education() {
   return (
     <section id="education" className="max-w-6xl mx-auto px-6">
+      <div className="relative">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <Iridescence color={[0.8, 0.3, 0.5]} speed={0.5} amplitude={0.05} mouseReact={false} />
+        </div>
 
       <ScrollReveal>
         <p className="text-xs tracking-[0.2em] text-rose-400 uppercase mb-3">Education</p>
-        <h2 className="text-3xl font-semibold text-rose-900 mb-8">Academic Background</h2>
+        <ScrollFloat textClassName="text-rose-900 font-semibold">Academic Background</ScrollFloat>
       </ScrollReveal>
 
       {/* Schools — 2 columns */}
@@ -90,6 +96,7 @@ export default function Education() {
         ))}
       </div>
 
+      </div>
     </section>
   );
 }

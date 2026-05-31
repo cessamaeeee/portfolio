@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
+import ShinyText from "@/components/ShinyText";
 
 // ─── Hero Component ──────────────────────
 export default function Hero() {
@@ -93,7 +94,7 @@ export default function Hero() {
             className="text-4xl md:text-5xl font-semibold text-rose-900 leading-tight mb-6"
             style={{ animation: "fadeInUp 0.8s ease forwards", animationDelay: "0.25s", opacity: 0 }}
           >
-            Hi, I&apos;m <span className="text-rose-600">Princess Mae</span>
+            Hi, I&apos;m <ShinyText text="Princess Mae" color="#8b3055" shineColor="#f9a8c9" speed={3} className="text-rose-600" />
           </h1>
           <p
             className="text-rose-700 text-base md:text-lg leading-relaxed mb-8 max-w-xl"
