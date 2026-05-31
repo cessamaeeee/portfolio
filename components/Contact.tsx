@@ -37,7 +37,7 @@ export default function Contact() {
       <div className="grid md:grid-cols-3 gap-4 mb-12">
         {LINKS.map((link, i) => (
           <ScrollReveal key={link.label} delay={i * 120}>
-            
+            <a
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
