@@ -65,12 +65,14 @@ const TOOLS = [
 // ─── Toolkit Component ───────────────────
 export default function Toolkit() {
   return (
-    <section id="toolkit" className="max-w-6xl mx-auto px-6">
-      <div className="relative">
-        <div className="absolute inset-0 opacity-30 pointer-events-none">
-          <Iridescence color={[0.8, 0.3, 0.5]} speed={0.5} amplitude={0.05} mouseReact={false} />
-        </div>
+    <section id="toolkit" className="relative">
+      {/* Iridescence — full viewport width */}
+      <div className="absolute inset-0 opacity-30 pointer-events-none overflow-hidden">
+        <Iridescence color={[0.8, 0.3, 0.5]} speed={0.5} amplitude={0.05} mouseReact={false} />
+      </div>
 
+      {/* Content — constrained */}
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
       {/* Devicons CDN */}
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
 
@@ -103,7 +105,6 @@ export default function Toolkit() {
           </ScrollReveal>
         ))}
       </div>
-
       </div>
     </section>
   );

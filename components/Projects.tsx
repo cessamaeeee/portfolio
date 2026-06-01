@@ -6,6 +6,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import ScrollFloat from "@/components/ScrollFloat";
 import Iridescence from "@/components/Iridescence";
 import { ParticleCard } from "@/components/MagicBento";
+import BorderGlow from "@/components/BorderGlow";
 
 // ─── Projects Data ───────────────────────
 const PROJECTS = [
@@ -57,18 +58,25 @@ function ProjectCard({ project, delay }: { project: typeof PROJECTS[0]; delay: n
 
   return (
     <ScrollReveal delay={delay}>
-      {/* outer div tracks hovered for button visibility */}
-      <div
+      <BorderGlow
+        borderRadius={16}
+        backgroundColor="transparent"
+        colors={['#f9a8d4', '#fda4af', '#fbcfe8']}
+        glowColor="330 60 70"
         className="h-full"
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
       >
-        <ParticleCard
-          className="relative bg-white/50 backdrop-blur-sm border border-rose-100 rounded-2xl overflow-hidden transition-all duration-300 hover:bg-rose-50/60 hover:border-rose-200 hover:shadow-lg hover:-translate-y-1 h-full flex flex-col"
-          glowColor="200, 80, 120"
-          clickEffect={true}
-          enableTilt={false}
+        {/* outer div tracks hovered for button visibility */}
+        <div
+          className="h-full"
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
         >
+          <ParticleCard
+            className="relative bg-white/50 backdrop-blur-sm border border-rose-100 rounded-2xl overflow-hidden transition-all duration-300 hover:bg-rose-50/60 hover:border-rose-200 hover:shadow-lg hover:-translate-y-1 h-full flex flex-col"
+            glowColor="200, 80, 120"
+            clickEffect={true}
+            enableTilt={false}
+          >
         {/* Photo */}
         <div className="relative h-44 w-full overflow-hidden">
           <Image src={project.photo} alt={project.name} fill className="object-cover transition-transform duration-500 hover:scale-105" />
@@ -126,7 +134,8 @@ function ProjectCard({ project, delay }: { project: typeof PROJECTS[0]; delay: n
           </div>
         </div>
         </ParticleCard>
-      </div>
+        </div>
+      </BorderGlow>
     </ScrollReveal>
   );
 }
@@ -134,20 +143,23 @@ function ProjectCard({ project, delay }: { project: typeof PROJECTS[0]; delay: n
 // ─── Projects Section ────────────────────
 export default function Projects() {
   return (
-    <section id="projects" className="max-w-6xl mx-auto px-6">
-      <div className="relative">
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <Iridescence color={[0.8, 0.3, 0.5]} speed={0.5} amplitude={0.05} mouseReact={false} />
-        </div>
-      <ScrollReveal>
-        <p className="text-xs tracking-[0.2em] text-rose-400 uppercase mb-3">Projects</p>
-        <ScrollFloat textClassName="text-rose-900 font-semibold">What I&apos;ve Built</ScrollFloat>
-      </ScrollReveal>
-      <div className="grid md:grid-cols-3 gap-6">
-        {PROJECTS.map((project, i) => (
-          <ProjectCard key={project.name} project={project} delay={i * 120} />
-        ))}
+    <section id="projects" className="relative">
+      {/* Iridescence — full viewport width */}
+      <div className="absolute inset-0 opacity-15 pointer-events-none overflow-hidden">
+        <Iridescence color={[0.8, 0.3, 0.5]} speed={0.5} amplitude={0.05} mouseReact={false} />
       </div>
+
+      {/* Content — constrained */}
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
+        <ScrollReveal>
+          <p className="text-xs tracking-[0.2em] text-rose-400 uppercase mb-3">Projects</p>
+          <ScrollFloat textClassName="text-rose-900 font-semibold">What I&apos;ve Built</ScrollFloat>
+        </ScrollReveal>
+        <div className="grid md:grid-cols-3 gap-6">
+          {PROJECTS.map((project, i) => (
+            <ProjectCard key={project.name} project={project} delay={i * 120} />
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -40,12 +40,14 @@ const CERTS = [
 // ─── Education Component ─────────────────
 export default function Education() {
   return (
-    <section id="education" className="max-w-6xl mx-auto px-6">
-      <div className="relative">
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <Iridescence color={[0.8, 0.3, 0.5]} speed={0.5} amplitude={0.05} mouseReact={false} />
-        </div>
+    <section id="education" className="relative">
+      {/* Iridescence — full viewport width */}
+      <div className="absolute inset-0 opacity-15 pointer-events-none overflow-hidden">
+        <Iridescence color={[0.8, 0.3, 0.5]} speed={0.5} amplitude={0.05} mouseReact={false} />
+      </div>
 
+      {/* Content — constrained */}
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
       <ScrollReveal>
         <p className="text-xs tracking-[0.2em] text-rose-400 uppercase mb-3">Education</p>
         <ScrollFloat textClassName="text-rose-900 font-semibold">Academic Background</ScrollFloat>
@@ -85,7 +87,7 @@ export default function Education() {
 
       {/* Certifications */}
       <ScrollReveal>
-        <h3 className="text-sm uppercase tracking-widest text-rose-400 mb-4">Certifications & Short Courses</h3>
+        <h3 className="text-sm uppercase tracking-widest text-rose-400 mb-4">Certifications &amp; Short Courses</h3>
       </ScrollReveal>
       <div className="flex flex-wrap gap-2">
         {CERTS.map((c, i) => (
@@ -96,8 +98,8 @@ export default function Education() {
           </ScrollReveal>
         ))}
       </div>
-
       </div>
     </section>
   );
 }
+
