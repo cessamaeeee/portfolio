@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import ShinyText from "@/components/ShinyText";
+import Grainient from "@/components/Grainient";
 
 // ─── Hero Component ──────────────────────
 export default function Hero() {
@@ -71,8 +72,36 @@ export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
 
+      {/* Grainient Animated Background */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <Grainient
+          color1="#da4f8e"
+          color2="#ff8fab"
+          color3="#fb6f92"
+          timeSpeed={0.25}
+          colorBalance={0}
+          warpStrength={1}
+          warpFrequency={5}
+          warpSpeed={2}
+          warpAmplitude={50}
+          blendAngle={0}
+          blendSoftness={0.05}
+          rotationAmount={500}
+          noiseScale={2}
+          grainAmount={0.1}
+          grainScale={2}
+          grainAnimated={false}
+          contrast={1.5}
+          gamma={1}
+          saturation={1}
+          centerX={0}
+          centerY={0}
+          zoom={0.9}
+        />
+      </div>
+
       {/* Particle Canvas */}
-      <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none z-0" />
+      <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none z-[1]" />
 
       {/* Floating Decorative Blobs */}
       <div className="float-1 absolute top-24 left-12 w-16 h-16 rounded-full bg-rose-200/40 blur-xl pointer-events-none" />
