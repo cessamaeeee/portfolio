@@ -73,7 +73,7 @@ export default function Hero() {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
 
       {/* Grainient Animated Background */}
-      <div className="absolute inset-0 pointer-events-none z-0">
+      <div className="absolute inset-0 pointer-events-none z-0" style={{ position: 'absolute', inset: 0 }}>
         <Grainient
           color1="#da4f8e"
           color2="#ff8fab"
