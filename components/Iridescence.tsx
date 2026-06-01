@@ -1,21 +1,14 @@
 'use client';
-import React, { useEffect, useRef } from 'react';
 import { Renderer, Program, Mesh, Color, Triangle } from 'ogl';
-
-interface IridescenceProps {
-  color?: [number, number, number];
-  speed?: number;
-  amplitude?: number;
-  mouseReact?: boolean;
-}
+import { useEffect, useRef } from 'react';
 
 const vertexShader = `
-  attribute vec2 position;
   attribute vec2 uv;
+  attribute vec2 position;
   varying vec2 vUv;
   void main() {
     vUv = uv;
-    gl_Position = vec4(position, 0.0, 1.0);
+    gl_Position = vec4(position, 0, 1);
   }
 `;
 
@@ -23,109 +16,113 @@ const fragmentShader = `
   precision highp float;
   uniform float uTime;
   uniform vec3 uColor;
-  uniform vec2 uResolution;
+  uniform vec3 uResolution;
   uniform vec2 uMouse;
   uniform float uAmplitude;
+  uniform float uSpeed;
   varying vec2 vUv;
 
-  vec3 palette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
-    return a + b * cos(6.28318 * (c * t + d));
-  }
-
   void main() {
-    vec2 uv = vUv;
-    vec2 mouse = uMouse / uResolution;
-    float dist = length(uv - mouse);
-
-    float wave = sin(uv.x * 8.0 + uTime * 0.8) * uAmplitude
-               + sin(uv.y * 6.0 + uTime * 0.6) * uAmplitude
-               + sin((uv.x + uv.y) * 5.0 + uTime * 1.0) * uAmplitude * 0.5;
-
-    float t = uv.x + uv.y + wave + uTime * 0.15;
-
-    vec3 col = palette(
-      t,
-      uColor * 0.5 + 0.5,
-      vec3(0.5),
-      vec3(1.0),
-      vec3(0.0, 0.33, 0.67)
-    );
-
-    col += 0.08 * exp(-dist * 3.0);
+    float mr = min(uResolution.x, uResolution.y);
+    vec2 uv = (vUv.xy * 2.0 - 1.0) * uResolution.xy / mr;
+    uv += (uMouse - vec2(0.5)) * uAmplitude;
+    float d = -uTime * 0.5 * uSpeed;
+    float a = 0.0;
+    for (float i = 0.0; i < 8.0; ++i) {
+      a += cos(i - d - a * uv.x);
+      d += sin(uv.y * i + a);
+    }
+    d += uTime * 0.5 * uSpeed;
+    vec3 col = vec3(cos(uv * vec2(d, a)) * 0.6 + 0.4, cos(a + d) * 0.5 + 0.5);
+    col = cos(col * cos(vec3(d, a, 2.5)) * 0.5 + 0.5) * uColor;
     gl_FragColor = vec4(col, 1.0);
   }
 `;
 
+interface IridescenceProps {
+  color?: [number, number, number];
+  speed?: number;
+  amplitude?: number;
+  mouseReact?: boolean;
+  [key: string]: unknown;
+}
+
 export default function Iridescence({
-  color = [0.8, 0.3, 0.5],
-  speed = 0.5,
+  color = [1, 1, 1],
+  speed = 1.0,
   amplitude = 0.1,
   mouseReact = true,
+  ...rest
 }: IridescenceProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const ctnDom = useRef<HTMLDivElement>(null);
+  const mousePos = useRef({ x: 0.5, y: 0.5 });
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const renderer = new Renderer({ alpha: true, premultipliedAlpha: false });
+    if (!ctnDom.current) return;
+    const ctn = ctnDom.current;
+    const renderer = new Renderer();
     const gl = renderer.gl;
-    gl.clearColor(0, 0, 0, 0);
-    container.appendChild(gl.canvas);
+    gl.clearColor(1, 1, 1, 1);
+
+    let program: InstanceType<typeof Program>;
+
+    function resize() {
+      renderer.setSize(ctn.offsetWidth, ctn.offsetHeight);
+      if (program) {
+        program.uniforms.uResolution.value = new Color(
+          gl.canvas.width,
+          gl.canvas.height,
+          gl.canvas.width / gl.canvas.height
+        );
+      }
+    }
+
+    window.addEventListener('resize', resize, false);
+    resize();
 
     const geometry = new Triangle(gl);
-    const program = new Program(gl, {
+    program = new Program(gl, {
       vertex: vertexShader,
       fragment: fragmentShader,
       uniforms: {
-        uTime: { value: 0 },
-        uColor: { value: new Color(...color) },
-        uResolution: { value: [container.offsetWidth, container.offsetHeight] },
-        uMouse: { value: [container.offsetWidth / 2, container.offsetHeight / 2] },
-        uAmplitude: { value: amplitude },
+        uTime:       { value: 0 },
+        uColor:      { value: new Color(...color) },
+        uResolution: { value: new Color(gl.canvas.width, gl.canvas.height, gl.canvas.width / gl.canvas.height) },
+        uMouse:      { value: new Float32Array([mousePos.current.x, mousePos.current.y]) },
+        uAmplitude:  { value: amplitude },
+        uSpeed:      { value: speed },
       },
     });
 
     const mesh = new Mesh(gl, { geometry, program });
+    let animateId: number;
 
-    const resize = () => {
-      renderer.setSize(container.offsetWidth, container.offsetHeight);
-      program.uniforms.uResolution.value = [container.offsetWidth, container.offsetHeight];
-    };
-    resize();
-    const resizeObserver = new ResizeObserver(resize);
-    resizeObserver.observe(container);
-
-    const onMouseMove = (e: MouseEvent) => {
-      if (!mouseReact) return;
-      const rect = container.getBoundingClientRect();
-      program.uniforms.uMouse.value = [e.clientX - rect.left, e.clientY - rect.top];
-    };
-    if (mouseReact) container.addEventListener('mousemove', onMouseMove);
-
-    let startTime = performance.now();
-    let animId: number;
-
-    const loop = () => {
-      animId = requestAnimationFrame(loop);
-      program.uniforms.uTime.value = ((performance.now() - startTime) / 1000) * speed;
+    function update(t: number) {
+      animateId = requestAnimationFrame(update);
+      program.uniforms.uTime.value = t * 0.001;
       renderer.render({ scene: mesh });
-    };
-    loop();
+    }
+    animateId = requestAnimationFrame(update);
+    ctn.appendChild(gl.canvas);
+
+    function handleMouseMove(e: MouseEvent) {
+      const rect = ctn.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = 1.0 - (e.clientY - rect.top) / rect.height;
+      mousePos.current = { x, y };
+      program.uniforms.uMouse.value[0] = x;
+      program.uniforms.uMouse.value[1] = y;
+    }
+    if (mouseReact) ctn.addEventListener('mousemove', handleMouseMove);
 
     return () => {
-      cancelAnimationFrame(animId);
-      resizeObserver.disconnect();
-      if (mouseReact) container.removeEventListener('mousemove', onMouseMove);
-      if (container.contains(gl.canvas)) container.removeChild(gl.canvas);
+      cancelAnimationFrame(animateId);
+      window.removeEventListener('resize', resize);
+      if (mouseReact) ctn.removeEventListener('mousemove', handleMouseMove);
+      if (ctn.contains(gl.canvas)) ctn.removeChild(gl.canvas);
       gl.getExtension('WEBGL_lose_context')?.loseContext();
     };
   }, [color, speed, amplitude, mouseReact]);
 
-  return (
-    <div
-      ref={containerRef}
-      style={{ width: '100%', height: '100%', position: 'absolute', inset: 0 }}
-    />
-  );
+  return <div ref={ctnDom} className="w-full h-full" {...(rest as React.HTMLAttributes<HTMLDivElement>)} />;
 }

@@ -185,6 +185,11 @@ export default function Hero() {
         <span className="text-xs tracking-widest uppercase">Scroll</span>
         <span className="text-lg">↓</span>
       </div>
+      {/* Smooth transition to next section */}
+      <div
+        className="absolute bottom-0 left-0 right-0 pointer-events-none z-20"
+        style={{ height: '180px', background: 'linear-gradient(to bottom, transparent 0%, #fdf0f4 100%)' }}
+      />
 
     </section>
   );

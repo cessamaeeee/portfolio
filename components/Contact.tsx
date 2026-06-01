@@ -1,6 +1,7 @@
 "use client";
 import ScrollReveal from "@/components/ScrollReveal";
 import ScrollFloat from "@/components/ScrollFloat";
+import BorderGlow from "@/components/BorderGlow";
 
 // ─── Contact Links ───────────────────────
 const LINKS = [
@@ -39,15 +40,23 @@ export default function Contact() {
       <div className="grid md:grid-cols-3 gap-4 mb-12">
         {LINKS.map((link, i) => (
           <ScrollReveal key={link.label} delay={i * 120}>
-            <a
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-white/50 backdrop-blur-sm border border-rose-100 rounded-2xl p-6 flex flex-col gap-2 hover:bg-rose-50/60 hover:border-rose-200 hover:shadow-md hover:-translate-y-1 transition-all duration-300 group"
+            <BorderGlow
+              borderRadius={16}
+              backgroundColor="rgba(255,255,255,0.5)"
+              colors={['#f9a8d4', '#fda4af', '#fbcfe8']}
+              glowColor="330 70 70"
+              className="w-full"
             >
-              <p className="text-xs text-rose-400 uppercase tracking-widest">{link.label}</p>
-              <p className="text-rose-700 text-sm group-hover:text-rose-900 transition-colors font-medium">{link.value}</p>
-            </a>
+              <a
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-6 flex flex-col gap-2 hover:bg-rose-50/40 transition-all duration-300 group"
+              >
+                <p className="text-xs text-rose-400 uppercase tracking-widest">{link.label}</p>
+                <p className="text-rose-700 text-sm group-hover:text-rose-900 transition-colors font-medium">{link.value}</p>
+              </a>
+            </BorderGlow>
           </ScrollReveal>
         ))}
       </div>

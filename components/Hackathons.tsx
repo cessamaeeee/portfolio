@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import ScrollReveal from "@/components/ScrollReveal";
 import ScrollFloat from "@/components/ScrollFloat";
+import { ParticleCard } from "@/components/MagicBento";
 
 // ─── Hackathons Data ─────────────────────
 const HACKATHONS = [
@@ -47,10 +48,16 @@ function HackathonCard({ h, delay }: { h: typeof HACKATHONS[0]; delay: number })
   return (
     <ScrollReveal delay={delay}>
       <div
-        className="bg-white/50 backdrop-blur-sm border border-rose-100 rounded-2xl overflow-hidden transition-all duration-300 hover:bg-rose-50/60 hover:border-rose-200 hover:shadow-lg hover:-translate-y-1"
+        className="h-full"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
+        <ParticleCard
+          className="bg-white/50 backdrop-blur-sm border border-rose-100 rounded-2xl overflow-hidden transition-all duration-300 hover:bg-rose-50/60 hover:border-rose-200 hover:shadow-lg hover:-translate-y-1"
+          glowColor="200, 80, 120"
+          clickEffect={true}
+          enableTilt={false}
+        >
         {/* Photo */}
         <div className="relative h-48 w-full overflow-hidden">
           <Image src={h.photo} alt={h.event} fill className="object-cover transition-transform duration-500 hover:scale-105" />
@@ -109,6 +116,7 @@ function HackathonCard({ h, delay }: { h: typeof HACKATHONS[0]; delay: number })
             {expanded ? "Show Less" : "Read More"}
           </button>
         </div>
+        </ParticleCard>
       </div>
     </ScrollReveal>
   );

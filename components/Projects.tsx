@@ -5,6 +5,7 @@ import Image from "next/image";
 import ScrollReveal from "@/components/ScrollReveal";
 import ScrollFloat from "@/components/ScrollFloat";
 import Iridescence from "@/components/Iridescence";
+import { ParticleCard } from "@/components/MagicBento";
 
 // ─── Projects Data ───────────────────────
 const PROJECTS = [
@@ -56,11 +57,18 @@ function ProjectCard({ project, delay }: { project: typeof PROJECTS[0]; delay: n
 
   return (
     <ScrollReveal delay={delay}>
+      {/* outer div tracks hovered for button visibility */}
       <div
-        className="relative bg-white/50 backdrop-blur-sm border border-rose-100 rounded-2xl overflow-hidden transition-all duration-300 hover:bg-rose-50/60 hover:border-rose-200 hover:shadow-lg hover:-translate-y-1 h-full flex flex-col"
+        className="h-full"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
+        <ParticleCard
+          className="relative bg-white/50 backdrop-blur-sm border border-rose-100 rounded-2xl overflow-hidden transition-all duration-300 hover:bg-rose-50/60 hover:border-rose-200 hover:shadow-lg hover:-translate-y-1 h-full flex flex-col"
+          glowColor="200, 80, 120"
+          clickEffect={true}
+          enableTilt={false}
+        >
         {/* Photo */}
         <div className="relative h-44 w-full overflow-hidden">
           <Image src={project.photo} alt={project.name} fill className="object-cover transition-transform duration-500 hover:scale-105" />
@@ -117,6 +125,7 @@ function ProjectCard({ project, delay }: { project: typeof PROJECTS[0]; delay: n
             </button>
           </div>
         </div>
+        </ParticleCard>
       </div>
     </ScrollReveal>
   );
