@@ -197,15 +197,16 @@ const BorderGlow: React.FC<BorderGlowProps> = ({
       } as React.CSSProperties} />
 
       {/* outer glow */}
-      <span className="absolute pointer-events-none z-[1] rounded-[inherit]" style={{
-        inset: `${-glowRadius}px`,
-        maskImage: `conic-gradient(from ${angleDeg} at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%)`,
-        WebkitMaskImage: `conic-gradient(from ${angleDeg} at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%)`,
-        opacity: glowOpacity,
-        mixBlendMode: 'plus-lighter',
-        transition: isVisible ? 'opacity 0.25s ease-out' : 'opacity 0.75s ease-in-out',
-      } as React.CSSProperties}>
-        <span className="absolute rounded-[inherit]" style={{ inset: `${glowRadius}px`, boxShadow: buildBoxShadow(glowColor, glowIntensity) }} />
+      <span
+        className="absolute pointer-events-none z-[2] rounded-[inherit]"
+        style={{
+          inset: `${-glowRadius}px`,
+          maskImage: `conic-gradient(from ${angleDeg} at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%)`,
+          WebkitMaskImage: `conic-gradient(from ${angleDeg} at center, black 2.5%, transparent 10%, transparent 90%, black 97.5%)`,
+          opacity: glowOpacity,
+          transition: isVisible ? 'opacity 0.25s ease-out' : 'opacity 0.75s ease-in-out',
+        } as React.CSSProperties}
+      >  <span className="absolute rounded-[inherit]" style={{ inset: `${glowRadius}px`, boxShadow: buildBoxShadow(glowColor, glowIntensity) }} />
       </span>
 
       <div className="flex flex-col relative overflow-auto z-[1]">

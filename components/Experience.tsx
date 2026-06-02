@@ -1,6 +1,7 @@
 "use client";
 import ScrollReveal from "@/components/ScrollReveal";
 import ScrollFloat from "@/components/ScrollFloat";
+import Grainient from "@/components/Grainient";
 
 // ─── Experience Data ─────────────────────
 const FORMAL = [
@@ -50,7 +51,18 @@ const ORGS = [
 // ─── Experience Component ────────────────
 export default function Experience() {
   return (
-    <section id="experience" className="max-w-6xl mx-auto px-6">
+    <section id="experience" className="relative">
+      {/* Section edge fades */}
+      <div className="absolute top-0 left-0 right-0 h-20 pointer-events-none z-20" style={{ background: 'linear-gradient(to bottom, #fdf0f4, transparent)' }} />
+      <div className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none z-20" style={{ background: 'linear-gradient(to top, #fdf0f4, transparent)' }} />
+
+      {/* Grainient — full width */}
+      <div className="absolute inset-0 opacity-35 pointer-events-none overflow-hidden">
+        <Grainient color1="#fda4af" color2="#fbcfe8" color3="#f9a8d4" timeSpeed={0.2} warpStrength={0.4} warpFrequency={2} grainAmount={0.05} contrast={1.1} />
+      </div>
+
+      {/* Content */}
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
 
       <ScrollReveal>
         <p className="text-xs tracking-[0.2em] text-rose-400 uppercase mb-3">Experience</p>
@@ -104,6 +116,7 @@ export default function Experience() {
         ))}
       </div>
 
+      </div>
     </section>
   );
 }

@@ -144,6 +144,10 @@ function ProjectCard({ project, delay }: { project: typeof PROJECTS[0]; delay: n
 export default function Projects() {
   return (
     <section id="projects" className="relative">
+      {/* Section edge fades */}
+      <div className="absolute top-0 left-0 right-0 h-20 pointer-events-none z-20" style={{ background: 'linear-gradient(to bottom, #fdf0f4, transparent)' }} />
+      <div className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none z-20" style={{ background: 'linear-gradient(to top, #fdf0f4, transparent)' }} />
+
       {/* Iridescence — full viewport width */}
       <div className="absolute inset-0 opacity-15 pointer-events-none overflow-hidden">
         <Iridescence color={[0.8, 0.3, 0.5]} speed={0.5} amplitude={0.05} mouseReact={false} />

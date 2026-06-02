@@ -6,6 +6,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import ScrollFloat from "@/components/ScrollFloat";
 import { ParticleCard } from "@/components/MagicBento";
 import BorderGlow from "@/components/BorderGlow";
+import Grainient from "@/components/Grainient";
 
 // ─── Hackathons Data ─────────────────────
 const HACKATHONS = [
@@ -134,15 +135,27 @@ function HackathonCard({ h, delay }: { h: typeof HACKATHONS[0]; delay: number })
 // ─── Hackathons Section ──────────────────
 export default function Hackathons() {
   return (
-    <section id="hackathons" className="max-w-6xl mx-auto px-6">
-      <ScrollReveal>
-        <p className="text-xs tracking-[0.2em] text-rose-400 uppercase mb-3">Hackathons</p>
-        <ScrollFloat textClassName="text-rose-900 font-semibold">Competing &amp; Building</ScrollFloat>
-      </ScrollReveal>
-      <div className="grid md:grid-cols-2 gap-6">
-        {HACKATHONS.map((h, i) => (
-          <HackathonCard key={h.event} h={h} delay={i * 150} />
-        ))}
+    <section id="hackathons" className="relative">
+      {/* Section edge fades */}
+      <div className="absolute top-0 left-0 right-0 h-20 pointer-events-none z-20" style={{ background: 'linear-gradient(to bottom, #fdf0f4, transparent)' }} />
+      <div className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none z-20" style={{ background: 'linear-gradient(to top, #fdf0f4, transparent)' }} />
+
+      {/* Grainient — full width */}
+      <div className="absolute inset-0 opacity-40 pointer-events-none overflow-hidden">
+        <Grainient color1="#f9a8d4" color2="#fda4af" color3="#fbcfe8" timeSpeed={0.3} warpStrength={0.5} warpFrequency={3} grainAmount={0.05} contrast={1.2} />
+      </div>
+
+      {/* Content */}
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
+        <ScrollReveal>
+          <p className="text-xs tracking-[0.2em] text-rose-400 uppercase mb-3">Hackathons</p>
+          <ScrollFloat textClassName="text-rose-900 font-semibold">Competing &amp; Building</ScrollFloat>
+        </ScrollReveal>
+        <div className="grid md:grid-cols-2 gap-6">
+          {HACKATHONS.map((h, i) => (
+            <HackathonCard key={h.event} h={h} delay={i * 150} />
+          ))}
+        </div>
       </div>
     </section>
   );

@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import SplashCursor from "@/components/SplashCursor";
 import Antigravity from "@/components/Antigravity";
+import Cursor from "@/components/Cursor";
 
 // ─── Font ────────────────────────────────
 const inter = Inter({
@@ -25,6 +26,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} font-sans antialiased`}>
+        {/* Custom pink cursor */}
+        <Cursor />
         {/* Antigravity particle ring — cursor background layer */}
         <div className="fixed inset-0 pointer-events-none z-[45]">
           <Antigravity

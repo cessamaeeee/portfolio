@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import ShinyText from "@/components/ShinyText";
-import Grainient from "@/components/Grainient";
+import LiquidEther from "@/components/LiquidEther";
 
 // ─── Hero Component ──────────────────────
 export default function Hero() {
@@ -72,32 +72,18 @@ export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
 
-      {/* Grainient Animated Background */}
-      <div className="absolute inset-0 pointer-events-none z-0" style={{ position: 'absolute', inset: 0 }}>
-        <Grainient
-          color1="#da4f8e"
-          color2="#ff8fab"
-          color3="#fb6f92"
-          timeSpeed={0.25}
-          colorBalance={0}
-          warpStrength={1}
-          warpFrequency={5}
-          warpSpeed={2}
-          warpAmplitude={50}
-          blendAngle={0}
-          blendSoftness={0.05}
-          rotationAmount={500}
-          noiseScale={2}
-          grainAmount={0.1}
-          grainScale={2}
-          grainAnimated={false}
-          contrast={1.5}
-          gamma={1}
-          saturation={1}
-          centerX={0}
-          centerY={0}
-          zoom={0.9}
+      {/* LiquidEther Fluid Background */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <LiquidEther
+          colors={['#ff9ffc', '#f9a8d4', '#fecdd3', '#fb6f92']}
+          autoDemo={true}
+          autoSpeed={0.4}
+          autoIntensity={2.5}
+          mouseForce={25}
+          cursorSize={100}
+          resolution={0.5}
         />
+
       </div>
 
       {/* Particle Canvas */}
